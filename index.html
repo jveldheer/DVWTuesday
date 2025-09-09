@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Daily Vault Work - Tuesday</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+  
+  :root { 
+    --black: #1A1A1A;
+    --yellow: #F5C842;
+    --gold: #FFD700;
+    --white: #FFFFFF;
+    --gray: #B0B0B0;
+    --dark-gray: #2A2A2A;
+    --border: #3A3A3A;
+    --green: #4CAF50;
+    --red: #FF5722;
+    --blue: #4A90E2;
+    --shadow: rgba(0,0,0,0.5);
+    --glow: rgba(245, 200, 66, 0.5);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(245, 200, 66, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(245, 200, 66, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #1f1f1f 100%);
+    padding: 30px 20px;
+    border-bottom: 3px solid var(--yellow);
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 10px 30px var(--shadow);
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .logo-wrapper {
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .logo-wrapper img {
+    width: 120px;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    filter: drop-shadow(0 0 25px var(--yellow)) brightness(1.15);
+    animation: logoGlow 3s ease-in-out infinite alternate;
+  }
+  
+  @keyframes logoGlow {
+    0% {
+      filter: drop-shadow(0 0 20px var(--yellow)) brightness(1.1);
+    }
+    100% {
+      filter: drop-shadow(0 0 40px var(--gold)) drop-shadow(0 0 60px var(--yellow)) brightness(1.25);
+    }
+  }
+  
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3em;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-shadow: 0 0 25px var(--glow);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  
+  /* Main Content */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Exercise Container */
+  .exercise-container {
+    display: grid;
+    gap: 25px;
+    margin-top: 20px;
+  }
+  
+  /* Exercise Card */
+  .exercise-card {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #222 100%);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+  }
+  
+  .exercise-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--yellow);
+    transition: width 0.3s ease;
+  }
+  
+  .exercise-card:hover {
+    transform: translateX(8px);
+    border-color: var(--yellow);
+    box-shadow: 0 8px 25px rgba(245, 200, 66, 0.15);
+  }
+  
+  .exercise-card:hover::before {
+    width: 100%;
+    opacity: 0.1;
+  }
+  
+  .exercise-number {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 40px;
+    height: 40px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5em;
+    color: var(--white);
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+  
+  .exercise-content {
+    margin-left: 60px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .exercise-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6em;
+    color: var(--white);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-decoration: underline;
+    text-decoration-color: var(--yellow);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+  }
+  
+  .exercise-details {
+    color: var(--yellow);
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  
+  .click-indicator {
+    position: absolute;
+    bottom: 25px;
+    right: 100px;
+    background: rgba(245, 200, 66, 0.1);
+    border: 1px solid var(--yellow);
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.9em;
+    color: var(--yellow);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+  
+  .click-indicator::before {
+    content: '▶';
+    font-size: 0.8em;
+  }
+  
+  /* Info Box */
+  .info-box {
+    background: linear-gradient(135deg, rgba(245, 200, 66, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+    border: 2px solid rgba(245, 200, 66, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px 0;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+  
+  .info-box h3 {
+    color: var(--yellow);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6em;
+    margin-bottom: 8px;
+    letter-spacing: 1.5px;
+  }
+  
+  .info-box p {
+    color: var(--white);
+    font-size: 1em;
+  }
+  
+  /* Completed Indicator */
+  .completed-indicator {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--dark-gray);
+  }
+  
+  .completed-indicator:hover {
+    border-color: var(--green);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+  }
+  
+  .completed-indicator.checked {
+    background: var(--green);
+    border-color: var(--green);
+    animation: checkPop 0.4s ease;
+  }
+  
+  .completed-indicator.checked::after {
+    content: '✓';
+    color: var(--white);
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+  
+  @keyframes checkPop {
+    0% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.3); }
+    100% { transform: translateY(-50%) scale(1); }
+  }
+  
+  .exercise-card.completed {
+    border-color: var(--green);
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, var(--dark-gray) 100%);
+  }
+  
+  .exercise-card.completed .exercise-number {
+    background: var(--green);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+  }
+  
+  /* Timer */
+  .timer-display {
+    background: var(--dark-gray);
+    border: 2px solid var(--yellow);
+    border-radius: 10px;
+    padding: 15px 25px;
+    margin: 30px auto;
+    max-width: 300px;
+    text-align: center;
+    display: none;
+  }
+  
+  .timer-display.active {
+    display: block;
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .timer-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2em;
+    color: var(--yellow);
+    letter-spacing: 2px;
+  }
+  
+  /* Celebration Overlay */
+  .celebration-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+  }
+  
+  .celebration-overlay.active {
+    display: block;
+  }
+  
+  .celebration-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 6em;
+    color: var(--yellow);
+    text-shadow: 0 0 50px var(--yellow), 0 0 100px var(--gold);
+    animation: epicZoom 1.5s ease-out;
+    letter-spacing: 5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  @keyframes epicZoom {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.2);
+      filter: blur(20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.2);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      filter: blur(0);
+    }
+  }
+  
+  .firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    animation: explode 1.5s ease-out forwards;
+  }
+  
+  @keyframes explode {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--x), var(--y)) scale(0);
+    }
+  }
+  
+  .progress-ring {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 80px;
+    height: 80px;
+    z-index: 100;
+    background: var(--dark-gray);
+    border-radius: 50%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  
+  .progress-ring.complete {
+    background: var(--green);
+    border-color: var(--green);
+    animation: victoryPulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes victoryPulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
+    }
+    50% {
+      transform: scale(1.1);
+      box-shadow: 0 5px 30px rgba(76, 175, 80, 0.8);
+    }
+  }
+  
+  .progress-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8em;
+    color: var(--yellow);
+    text-align: center;
+  }
+  
+  .progress-ring.complete .progress-text {
+    color: var(--white);
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2.2em;
+      letter-spacing: 1px;
+    }
+    
+    .exercise-container {
+      gap: 15px;
+    }
+    
+    .exercise-card {
+      padding: 20px 15px;
+    }
+    
+    .exercise-content {
+      margin-left: 55px;
+      margin-right: 60px;
+    }
+    
+    .exercise-name {
+      font-size: 1.3em;
+    }
+    
+    .exercise-details {
+      font-size: 0.95em;
+    }
+    
+    .click-indicator {
+      display: none;
+    }
+    
+    .completed-indicator {
+      width: 45px;
+      height: 45px;
+      right: 15px;
+    }
+    
+    .completed-indicator.checked::after {
+      font-size: 1.5em;
+    }
+    
+    .progress-ring {
+      bottom: 20px;
+      right: 20px;
+      width: 70px;
+      height: 70px;
+    }
+    
+    .progress-text {
+      font-size: 1.5em;
+    }
+    
+    .info-box {
+      padding: 15px;
+    }
+    
+    .info-box h3 {
+      font-size: 1.4em;
+    }
+    
+    .info-box p {
+      font-size: 0.9em;
+    }
+    
+    .celebration-text {
+      font-size: 4em;
+      letter-spacing: 2px;
+    }
+    
+    /* Prevent horizontal scroll on mobile */
+    body {
+      overflow-x: hidden;
+    }
+    
+    .exercise-card:hover {
+      transform: translateX(3px);
+    }
+    
+    /* Touch-friendly tap targets */
+    .completed-indicator {
+      min-width: 44px;
+      min-height: 44px;
+    }
+    
+    /* Optimize font sizes for readability */
+    .exercise-number {
+      width: 35px;
+      height: 35px;
+      font-size: 1.3em;
+      left: 15px;
+    }
+    
+    /* Better spacing for mobile */
+    main {
+      padding: 30px 15px;
+    }
+    
+    header {
+      padding: 25px 15px;
+    }
+  }
+  
+  /* Small mobile devices */
+  @media (max-width: 380px) {
+    .page-title {
+      font-size: 1.9em;
+    }
+    
+    .exercise-name {
+      font-size: 1.2em;
+    }
+    
+    .exercise-content {
+      margin-right: 55px;
+    }
+    
+    .celebration-text {
+      font-size: 3em;
+    }
+  }
+  
+  /* Prevent zoom on input focus (iOS) */
+  @media (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-content">
+    <div class="logo-wrapper">
+      <img src="vlvl16x9.png" alt="VLV Logo">
+    </div>
+    <h1 class="page-title">Daily Vault Work Tuesday</h1>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main>
+  <div class="info-box">
+    <h3>INSTRUCTIONS</h3>
+    <p style="margin-bottom: 8px;">Timing: In-Season → Pre-Practice | Off-Season → Pre or Post Lift</p>
+    <p style="margin-top: 0;">Comment #VaultPrimed after completion ⚡</p>
+  </div>
+
+  <div class="timer-display" id="timer">
+    <div class="timer-text" id="timerText">00:00</div>
+  </div>
+
+  <div class="exercise-container">
+    
+    <!-- Exercise 1 -->
+    <div class="exercise-card" data-video="https://youtube.com/shorts/G2WyCoVwv8Y?si=rSfu4cfgA3qCv88s">
+      <div class="exercise-number">1</div>
+      <div class="exercise-content">
+        <h2 class="exercise-name">Wall Supporter Forward Leg Swings</h2>
+        <div class="exercise-details">20 each side</div>
+      </div>
+      <div class="completed-indicator" onclick="toggleComplete(event, this)"></div>
+      <div class="click-indicator">Click exercise for video</div>
+    </div>
+
+    <!-- Exercise 2 -->
+    <div class="exercise-card" data-video="https://youtu.be/5JlBvD6Mz1g?si=vbHAiRY0aS6nMgNT">
+      <div class="exercise-number">2</div>
+      <div class="exercise-content">
+        <h2 class="exercise-name">Wall Supporter Side Leg Swings</h2>
+        <div class="exercise-details">20 each side</div>
+      </div>
+      <div class="completed-indicator" onclick="toggleComplete(event, this)"></div>
+      <div class="click-indicator">Click exercise for video</div>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="exercise-card" data-video="https://jveldheer.github.io/reaction-app/">
+      <div class="exercise-number">3</div>
+      <div class="exercise-content">
+        <h2 class="exercise-name">Audible COD Pass Pro/Even Shuffle Drill</h2>
+        <div class="exercise-details">8 rounds × 6 seconds on timer (VLV timer app)</div>
+      </div>
+      <div class="completed-indicator" onclick="toggleComplete(event, this)"></div>
+      <div class="click-indicator">Click for timer app</div>
+    </div>
+
+    <!-- Exercise 4 -->
+    <div class="exercise-card" data-video="https://youtu.be/qpoilsHYDFM?si=KQsfEKd8WBfRow5m">
+      <div class="exercise-number">4</div>
+      <div class="exercise-content">
+        <h2 class="exercise-name">Pass Pro Stance, Banded Horizontal Row Isometric</h2>
+        <div class="exercise-details">3 rounds × 6 reps (8 second hold each rep)</div>
+      </div>
+      <div class="completed-indicator" onclick="toggleComplete(event, this)"></div>
+      <div class="click-indicator">Click exercise for video</div>
+    </div>
+
+    <!-- Exercise 5 -->
+    <div class="exercise-card" data-video="https://youtu.be/oy2AfcI1CXA?si=X7A3_3eBVr2q2AJL">
+      <div class="exercise-number">5</div>
+      <div class="exercise-content">
+        <h2 class="exercise-name">Forward Fold with Box Breathing</h2>
+        <div class="exercise-details">2 rounds × 60 seconds (4 second boxes)</div>
+      </div>
+      <div class="completed-indicator" onclick="toggleComplete(event, this)"></div>
+      <div class="click-indicator">Click exercise for video</div>
+    </div>
+
+  </div>
+
+  <div class="info-box" style="background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 87, 34, 0.05) 100%); border-color: rgba(255, 87, 34, 0.3);">
+    <h3 style="color: #FF5722;">REACTION TIMER APP</h3>
+    <p>Use for Exercise 3: Audible COD Pass Pro Drill</p>
+    <a href="https://jveldheer.github.io/reaction-app/" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 25px; background: #FF5722; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;">Open Reaction Timer</a>
+  </div>
+  
+  <div class="info-box" style="background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(74, 144, 226, 0.05) 100%); border-color: rgba(74, 144, 226, 0.3);">
+    <h3 style="color: #4A90E2;">BREATHWORK APP</h3>
+    <p>Use for guided box breathing during forward fold</p>
+    <a href="https://jveldheer.github.io/Breath_Work/" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 25px; background: #4A90E2; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;">Open Breathwork App</a>
+  </div>
+  
+  <div class="info-box" style="margin-top: 30px;">
+    <h3>TOTAL WORKOUT TIME</h3>
+    <p>15-20 minutes • Stay hydrated • Focus on movement quality over speed</p>
+  </div>
+  
+  <!-- Progress Ring -->
+  <div class="progress-ring" id="progressRing">
+    <div class="progress-text" id="progressText">0/5</div>
+  </div>
+  
+  <!-- Celebration Overlay -->
+  <div class="celebration-overlay" id="celebrationOverlay">
+    <div class="celebration-text">VAULT CRUSHED!</div>
+  </div>
+</main>
+
+<script>
+// Toggle exercise completion
+function toggleComplete(event, element) {
+  event.stopPropagation();
+  const card = element.closest('.exercise-card');
+  
+  element.classList.toggle('checked');
+  card.classList.toggle('completed');
+  
+  // Store completion status
+  const exerciseId = card.querySelector('.exercise-name').textContent;
+  if (card.classList.contains('completed')) {
+    sessionStorage.setItem('vault_tuesday_' + exerciseId, 'completed');
+  } else {
+    sessionStorage.removeItem('vault_tuesday_' + exerciseId);
+  }
+  
+  updateProgress();
+}
+
+// Open video when clicking on card (not on checkbox)
+document.querySelectorAll('.exercise-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('completed-indicator')) {
+      const videoUrl = this.dataset.video;
+      window.open(videoUrl, '_blank');
+    }
+  });
+});
+
+// Update progress display
+function updateProgress() {
+  const total = document.querySelectorAll('.exercise-card').length;
+  const completed = document.querySelectorAll('.exercise-card.completed').length;
+  const progressRing = document.getElementById('progressRing');
+  const progressText = document.getElementById('progressText');
+  
+  progressText.textContent = `${completed}/${total}`;
+  
+  if (completed === total && total > 0) {
+    progressRing.classList.add('complete');
+    triggerCelebration();
+  } else {
+    progressRing.classList.remove('complete');
+  }
+}
+
+// Epic celebration effect
+function triggerCelebration() {
+  const overlay = document.getElementById('celebrationOverlay');
+  overlay.classList.add('active');
+  
+  // Create fireworks
+  createFireworks();
+  
+  // Screen shake effect
+  document.body.style.animation = 'screenShake 0.5s ease-out';
+  
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    document.body.style.animation = '';
+    
+    if (confirm('🔥 VAULT DOMINATED! 🔥\n\nYou crushed all 5 exercises!\n\nReset for next session?')) {
+      resetProgress();
+    }
+  }, 3000);
+}
+
+// Create firework particles
+function createFireworks() {
+  const overlay = document.getElementById('celebrationOverlay');
+  const colors = ['#F5C842', '#FFD700', '#4CAF50', '#FF5722', '#4A90E2'];
+  
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
+      
+      for (let j = 0; j < 30; j++) {
+        const particle = document.createElement('div');
+        particle.className = 'firework';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        const angle = (Math.PI * 2 * j) / 30;
+        const velocity = 100 + Math.random() * 100;
+        particle.style.setProperty('--x', Math.cos(angle) * velocity + 'px');
+        particle.style.setProperty('--y', Math.sin(angle) * velocity + 'px');
+        
+        overlay.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 1500);
+      }
+    }, i * 200);
+  }
+}
+
+// Add screen shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+  @keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+  }
+`;
+document.head.appendChild(shakeStyle);
+
+// Check completion status on load
+window.addEventListener('DOMContentLoaded', function() {
+  const exercises = document.querySelectorAll('.exercise-card');
+  exercises.forEach(card => {
+    const exerciseId = card.querySelector('.exercise-name').textContent;
+    if (sessionStorage.getItem('vault_tuesday_' + exerciseId) === 'completed') {
+      card.classList.add('completed');
+      card.querySelector('.completed-indicator').classList.add('checked');
+    }
+  });
+  updateProgress();
+});
+
+// Reset progress
+function resetProgress() {
+  const exercises = document.querySelectorAll('.exercise-card');
+  exercises.forEach(card => {
+    card.classList.remove('completed');
+    card.querySelector('.completed-indicator').classList.remove('checked');
+    const exerciseId = card.querySelector('.exercise-name').textContent;
+    sessionStorage.removeItem('vault_tuesday_' + exerciseId);
+  });
+  updateProgress();
+}
+</script>
+
+</body>
+</html>
